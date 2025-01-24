@@ -1,64 +1,90 @@
-; bios ints take memory, so start here
-[org 0x7c00]
-; we only need 8 bit registers working with ascii
-mov bx, startPhrase
+[org 0x7c00]                        
+KERNEL_LOCATION equ 0x1000
+                                    
+
+mov [BOOT_DISK], dl                 
+
+                                    
+xor ax, ax                          
+mov es, ax
+mov ds, ax
+mov bp, 0x8000
+mov sp, bp
+
+mov bx, KERNEL_LOCATION
+mov dh, 2
+
+mov ah, 0x02
+mov al, dh 
+mov ch, 0x00
+mov dh, 0x00
+mov cl, 0x02
+mov dl, [BOOT_DISK]
+int 0x13                ; no error management, do your homework!
+
+                                    
+mov ah, 0x0
+mov al, 0x3
+int 0x10                ; text mode
 
 
-stringDisplay:
-	mov ah, 0x0e
-	mov al, [bx]
-	; check if you're at the end of the string
-	cmp al, 0
-	je input
-	int 0x10
-	inc bx
-	jmp stringDisplay
+CODE_SEG equ GDT_code - GDT_start
+DATA_SEG equ GDT_data - GDT_start
 
-newline:
-	mov ah, 0x0e
-	mov al, 10
-	int 0x10
-	mov al, 13
-	int 0x10
-	ret
+cli
+lgdt [GDT_descriptor]
+mov eax, cr0
+or eax, 1
+mov cr0, eax
+jmp CODE_SEG:start_protected_mode
 
-startPhrase:
-	db "bios boot complete, redirecting to input function", 0
+jmp $
+                                    
+BOOT_DISK: db 0
 
-horseDesc:
-	db "horses are the ugliest creatures in the world", 0
+GDT_start:
+    GDT_null:
+        dd 0x0
+        dd 0x0
 
-horseInit:
-	call newline
-	mov bx, horseDesc
-	jmp stringDisplay
+    GDT_code:
+        dw 0xffff
+        dw 0x0
+        db 0x0
+        db 0b10011010
+        db 0b11001111
+        db 0x0
 
-grilledCheeseDesc:
-	db "grilled cheese is the most mysterious sandwich", 0
+    GDT_data:
+        dw 0xffff
+        dw 0x0
+        db 0x0
+        db 0b10010010
+        db 0b11001111
+        db 0x0
 
-gcInit:
-	call newline
-	mov bx, grilledCheeseDesc
-	jmp stringDisplay
+GDT_end:
 
-unknownDesc:
-	db "this does not exist", 0
+GDT_descriptor:
+    dw GDT_end - GDT_start - 1
+    dd GDT_start
 
-unknownInit:
-	call newline
-	mov bx, unknownDesc
-	jmp stringDisplay
 
-input:
-	call newline
-	mov ah, 0
-	int 0x16
-	cmp al, "h"
-	je horseInit
-	cmp al, "g"
-	je gcInit
-	jne unknownInit
-	jmp input
+[bits 32]
+start_protected_mode:
+    mov ax, DATA_SEG
+	mov ds, ax
+	mov ss, ax
+	mov es, ax
+	mov fs, ax
+	mov gs, ax
+	
+	mov ebp, 0x90000		; 32 bit stack base pointer
+	mov esp, ebp
 
-times 510-($-$$) db 0
-db 0x55, 0xaa
+    jmp KERNEL_LOCATION
+
+                                     
+ 
+times 510-($-$$) db 0              
+dw 0xaa55
