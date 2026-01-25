@@ -1,4 +1,4 @@
-/usr/local/i386elfgcc/bin/i386-elf-gcc -ffreestanding -m32 -g -c "kernel.c" -o "./bin/kernel.o"
+/usr/local/i386elfgcc/bin/i386-elf-gcc -ffreestanding -m32 -g kernel.c io.c -o "./bin/kernel.o"
 echo "compilation complete!"
 /usr/local/i386elfgcc/bin/i386-elf-ld -o "./bin/kernel.bin" -Ttext 0x1000 "./bin/kernelEntry.o" "./bin/kernel.o" --oformat binary --entry main
 echo "linking complete!"

@@ -10,6 +10,8 @@
 #define CORNER_UR 0xC8 // up right
 #define CORNER_UL 0xBC // up left
 
+#include "io.h"
+
 void printChar(char character, unsigned int posX, unsigned int posY) {
 	unsigned int offset = (posY * WIDTH + posX) * 2;
     unsigned char* vga = (unsigned char*)VGABUF;
@@ -31,11 +33,11 @@ void printSquare(unsigned int posX, unsigned int posY, unsigned int sqwidth, uns
     printChar(CORNER_UR, posX, posY + sqheight);
     printChar(CORNER_UL, posX + sqwidth, posY + sqheight); // define corners
 
-    for (int i = posX + 1; i < posX + sqwidth; i++) { // horizontal
+    for (unsigned int i = posX + 1; i < posX + sqwidth; i++) { // horizontal
         printChar(LINE_HORIZONTAL, i, posY); // top line
         printChar(LINE_HORIZONTAL, i, posY + sqheight); // bottom line
     }
-    for (int i = posY + 1; i < posY + sqheight; i++) { // vertical
+    for (unsigned int i = posY + 1; i < posY + sqheight; i++) { // vertical
         printChar(LINE_VERTICAL, posX, i); // left
         printChar(LINE_VERTICAL, posX + sqwidth, i); // right
     }

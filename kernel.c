@@ -3,7 +3,9 @@
 #define WIDTH 80 // default for qemu. probably shouldn't be hardcoded but it is so suck it. // coming back later and reading the comments I wrote at 3 am is fun
 #define NMI_disable_bit 1
 
-#include "io.c"
+#include "io.h"
+
+//#include "cli.c"
 
 void main() {
 while (1) {
@@ -15,6 +17,7 @@ while (1) {
 	//unsigned char rawSecond = inb(0x71); // read data from port 0x71 (cmos register value)
 	//unsigned int second = ((rawSecond >> 4) * 10) + (rawSecond & 0x0F);
 	printNum(getSecond(), 0, 2); // cast to char and print probably hopefully
+//	shell();
 }
 	return;
 }
