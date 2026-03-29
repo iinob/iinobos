@@ -1,5 +1,11 @@
 #include "io.h"
+#include "kbdriver.h"
+
+#include "cli.h"
 
 void shell() {
-	print("# ", 5, 60);
+	printChar('t', 0, 10);
+	char character = readchar();
+	printChar('b', 1, 10);
+	printChar(character, 2, 10);
 }

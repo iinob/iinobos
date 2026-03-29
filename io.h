@@ -9,10 +9,10 @@ void printSquare(unsigned int posX, unsigned int posY, unsigned int sqwidth, uns
 
 void printNum(int number, int posX, int posY);
 
-static __inline unsigned char inb (unsigned short int __port);
+unsigned char inb (unsigned short int __port);
 
-static __inline void outb (unsigned char __value, unsigned short int __port);
+void outb (unsigned char __value, unsigned short int __port);
 
-int getSecond();
+//int getSecond();
 
 #endif

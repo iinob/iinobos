@@ -5,7 +5,7 @@ NASM = nasm
 CFLAGS  = -ffreestanding -m32 -g -Wall -Wextra -c
 LDFLAGS = -Ttext 0x1000 --oformat binary --entry main
 
-C_OBJS   = bin/kernel.o bin/io.o
+C_OBJS   = bin/kernel.o bin/io.o bin/cli.o bin/keyboardDriver.o
 ASM_OBJS = bin/kernelEntry.o
 
 KERNEL_BIN = bin/kernel.bin

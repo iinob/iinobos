@@ -54,19 +54,19 @@ void printNum(int number, int posX, int posY) { // only works with 1-2 digit num
 	}
 }
 
-static __inline unsigned char inb (unsigned short int __port) { // functions to read and write from system ports
+unsigned char inb (unsigned short int __port) { // functions to read and write from system ports
   unsigned char _v;
   __asm__ __volatile__ ("inb %w1,%0":"=a" (_v):"Nd" (__port));
   return _v;
 }
 
-static __inline void outb (unsigned char __value, unsigned short int __port){
+void outb (unsigned char __value, unsigned short int __port){
   __asm__ __volatile__ ("outb %b0,%w1": :"a" (__value), "Nd" (__port));
 }
 
-int getSecond() {
+/*int getSecond() {
 	outb(0x70, (NMI_disable_bit << 7) | (0x00));
 	unsigned char rawSecond = inb(0x71);
 	unsigned int second = ((rawSecond >> 4) *10) + (rawSecond & 0x0F);
 	return second;
-}
+}*/

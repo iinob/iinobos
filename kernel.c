@@ -5,7 +5,7 @@
 
 #include "io.h"
 
-//#include "cli.c"
+#include "cli.h"
 
 void main() {
 while (1) {
@@ -16,8 +16,8 @@ while (1) {
 	print("iinob OS!", 7, 9);
 	//unsigned char rawSecond = inb(0x71); // read data from port 0x71 (cmos register value)
 	//unsigned int second = ((rawSecond >> 4) * 10) + (rawSecond & 0x0F);
-	printNum(getSecond(), 0, 2); // cast to char and print probably hopefully
-//	shell();
+	//printNum(getSecond(), 0, 2); // cast to char and print probably hopefully
+	shell();
 }
 	return;
 }
