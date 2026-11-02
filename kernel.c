@@ -5,19 +5,19 @@
 
 #include "io.h"
 
-//#include "cli.c"
+#include "cli.h"
 
 void main() {
 while (1) {
 	print("kernel loaded!", 0, 0);
-	//outb (0x70, (NMI_disable_bit << 7) | (0x00)); // set cmos (port 0x70) register to seconds (register 0x00)
+	outb (0x70, (NMI_disable_bit << 7) | (0x00)); // set cmos (port 0x70) register to seconds (register 0x00)
 	printSquare(6,6,11,4);
 	print("Welcome to", 7, 7);
 	print("iinob OS!", 7, 9);
-	//unsigned char rawSecond = inb(0x71); // read data from port 0x71 (cmos register value)
-	//unsigned int second = ((rawSecond >> 4) * 10) + (rawSecond & 0x0F);
+	unsigned char rawSecond = inb(0x71); // read data from port 0x71 (cmos register value)
+	unsigned int second = ((rawSecond >> 4) * 10) + (rawSecond & 0x0F);
 	printNum(getSecond(), 0, 2); // cast to char and print probably hopefully
-//	shell();
+	//shell();
 }
 	return;
 }
