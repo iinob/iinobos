@@ -1,6 +1,8 @@
 #ifndef IO_H
 #define IO_H
 
+void clear();
+
 void printChar(char character, unsigned int posX, unsigned int posY);
 
 void print(const char string[], unsigned int posX, unsigned int posY);

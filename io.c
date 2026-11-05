@@ -12,11 +12,19 @@
 
 #include "io.h"
 
+void clear() {
+	for (int i = 0; i < HEIGHT; i++) {
+		for (int j = 0; j < HEIGHT; j++) {
+			printChar(' ', i, j);
+		}
+	}
+}
+
 void printChar(char character, unsigned int posX, unsigned int posY) {
 	unsigned int offset = (posY * WIDTH + posX) * 2;
-    unsigned char* vga = (unsigned char*)VGABUF;
-    vga[offset] = character;
-    vga[offset + 1] = 0x07;
+   	unsigned char* vga = (unsigned char*)VGABUF;
+   	vga[offset] = character;
+   	vga[offset + 1] = 0x07;
 }
 
 void print(const char string[], unsigned int posX, unsigned int posY) {
